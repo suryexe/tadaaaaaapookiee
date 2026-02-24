@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Pookie 🌙</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    background: radial-gradient(circle at top, #1a1a2e, #0f0f1b);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+.moon {
+    position: fixed;
+    top: 40px;
+    right: 30px;
+    width: 80px;
+    height: 80px;
+    background: #f5f3ce;
+    border-radius: 50%;
+    box-shadow: 0 0 30px #fff;
+}
+
+.star {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: white;
+    animation: twinkle 2s infinite alternate;
+}
+@keyframes twinkle {
+    from {opacity: 0.3;}
+    to {opacity: 1;}
+}
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(255,255,255,0.08);
+    padding: 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(255,255,255,0.15);
+    z-index: 2;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 25px;
+    border: none;
+    background: #6c63ff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.heart {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    background: pink;
+    transform: rotate(45deg);
+    animation: float 8s linear infinite;
+    opacity: 0.7;
+}
+.heart::before,
+.heart::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: pink;
+    border-radius: 50%;
+    position: absolute;
+}
+.heart::before { top: -6px; left: 0; }
+.heart::after { left: -6px; top: 0; }
+
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(45deg); }
+    100% { transform: translateY(-10vh) rotate(45deg); }
+}
+
+/* Falling Chocolate & Flowers */
+@keyframes fall {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(110vh); opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="moon"></div>
+
+<div class="card" id="passwordScreen">
+    <h3>Only My Pookie Knows This 🌙</h3>
+    <p style="font-size:14px; opacity:0.8;">
+        Hint: It has something to do with us + the moon ✨
+    </p>
+    <input type="password" id="passwordInput" placeholder="Enter the magic word...">
+    <button onclick="checkPassword()">Unlock 💖</button>
+    <p id="wrongPass" class="hidden">Hmm… think again Pookie 🥺🌙</p>
+</div>
+
+<div class="card hidden" id="mainContent">
+
+<audio autoplay loop>
+<source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" type="audio/mpeg">
+</audio>
+
+<h3>Sweetu (Dhruvi) 🌙</h3>
+
+<p id="letter" style="white-space: pre-line;"></p>
+
+<h4>⏳ Until I Hug My Pookie:</h4>
+<p id="countdown"></p>
+
+<button onclick="showChocolate()">Send Chocolate 🍫</button>
+
+<button onclick="crampMode()">⚠ Cramps Hurt</button>
+<div id="cramps" class="hidden">
+Breathe slowly 🌙  
+Put your hand on your tummy.  
+Imagine that I'm near you right now.  
+You’re safe. I love you endlessly bestieeeee.
+</div>
+
+</div>
+
+<script>
+
+function checkPassword() {
+    var pass = document.getElementById("passwordInput").value;
+    if(pass === "sweetuxmoon") {
+        document.getElementById("passwordScreen").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+        typeLetter();
+    } else {
+        document.getElementById("wrongPass").style.display = "block";
+    }
+}
+
+var text = "Hey Pookie 🌙\n\nI know your cramps are being dramatic right now.\nIf I was there, I'd jujuju you,\nplay with your cheeks,\nand never let you feel alone.\n\nYou are my moon in every dark sky.\nForever yours 🤍";
+
+var i = 0;
+function typeLetter() {
+    if (i < text.length) {
+        document.getElementById("letter").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeLetter, 35);
+    }
+}
+
+var meetDate = new Date("March 30, 2026 00:00:00").getTime();
+setInterval(function() {
+    var now = new Date().getTime();
+    var distance = meetDate - now;
+    var days = Math.floor(distance / (1000*60*60*24));
+    var hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
+    document.getElementById("countdown").innerHTML =
+    days + " days " + hours + " hours";
+}, 1000);
+
+for(let i=0;i<60;i++){
+    let star=document.createElement("div");
+    star.className="star";
+    star.style.left=Math.random()*100+"vw";
+    star.style.top=Math.random()*100+"vh";
+    star.style.animationDuration=Math.random()*2+1+"s";
+    document.body.appendChild(star);
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 5 + 5) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 8000);
+}
+setInterval(createHeart, 500);
+
+/* Chocolate + Flower Spam */
+function showChocolate(){
+    for(let i = 0; i < 25; i++){
+        createGift("🍫");
+        createGift("🌸");
+    }
+}
+
+function createGift(emoji){
+    const gift = document.createElement("div");
+    gift.innerHTML = emoji;
+    gift.style.position = "fixed";
+    gift.style.fontSize = "24px";
+    gift.style.left = Math.random() * 100 + "vw";
+    gift.style.top = "-20px";
+    gift.style.animation = "fall 3s linear forwards";
+    gift.style.zIndex = "999";
+    document.body.appendChild(gift);
+
+    setTimeout(() => gift.remove(), 3000);
+}
+
+function crampMode(){
+    document.getElementById("cramps").style.display="block";
+}
+
+</script>
+
+</body>
+</html>
